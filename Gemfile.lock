@@ -3,7 +3,7 @@ GEM
   specs:
     rack (2.0.1)
     rulers (0.1.0)
-      rack
+      rack (~> 2.0)
 
 PLATFORMS
   ruby
