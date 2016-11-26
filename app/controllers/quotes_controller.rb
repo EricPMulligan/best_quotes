@@ -1,6 +1,6 @@
 class QuotesController < Rulers::Controller
   def a_quote
-    render :a_quote, noun: :winking
+    @noun = :winking
   end
 
   def exception
@@ -8,13 +8,12 @@ class QuotesController < Rulers::Controller
   end
 
   def index
-    quotes = FileModel.all
-    render :index, quotes: quotes
+    @quotes = FileModel.all
   end
 
   def quote_1
-    quote_1 = FileModel.find(1)
-    render :quote, obj: quote_1
+    @obj = FileModel.find(1)
+    render :quote
   end
 
   def new_quote
@@ -23,17 +22,19 @@ class QuotesController < Rulers::Controller
       'quote' => 'A picture is worth one k pixels',
       'attribution' => 'Me'
     }
-    m = FileModel.create attrs
-    render :quote, obj: m
+    @obj = FileModel.create attrs
+    render :quote
   end
 
   def update
     raise 'Invalid request method' unless request.post?
-    m = FileModel.save(1, request.params)
-    render :quote, obj: m
+    @obj = FileModel.save(1, request.params)
+    render :quote
   end
 
-  def method_missing(m, *args, &block)
-
+  def show
+    @obj = FileModel.find(params['id'])
+    @ua = request.user_agent
+    render :quote
   end
 end
